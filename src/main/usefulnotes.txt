@@ -1,0 +1,8 @@
+http://stackoverflow.com/questions/3191489/scala-problem-how-to-run-a-program-that-is-in-a-package
+
+COMPILE AND RUN:
+scalac *.scala
+scala packomatrices.Main
+
+To suppress warning: -nowarn
+//
