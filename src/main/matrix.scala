@@ -6,23 +6,37 @@ class Matrix(rows: Vector[Vector[Float]]){
 	type T
 	val N = rows.size
 	val M = rows(0).size
-	println(N);println(M)
 	
-//	def initEmpty:
+//	def initempty
+
+	def row(n: Int): Vector[Float] = rows(n-1)
+
+	def column(m: Int): Vector[Float] = transpose.row(m)
 
 	def transpose: Matrix = {
-		var inner = Vector.fill(M,N)(0.0f) //Not functional
+		var outer = Vector.fill(M,N)(0.0f) //Not functional
 		for (m <- 0 to (M-1)){
-			var temp: Vector[Float] = inner(m)
+			var inner: Vector[Float] = outer(m)
 			for (n <- 0 to (N-1)){
-				temp = temp.updated(n,rows(n)(m))
+				inner = inner.updated(n,rows(n)(m))
 			}
-			inner = inner.updated(m,temp)
+			outer = outer.updated(m,inner)
 		}	
-		new Matrix(inner)
+		new Matrix(outer)
 	}
 
-//	def operate(operand: Matrix): Matrix = ne
+	def operate(opd: Matrix): Matrix = {
+		var outer = Vector.fill(N,opd.M)(0.0f)
+		for (n <- 0 to (N-1)){
+			var inner: Vector[Float] = outer(n)
+			for (m <- 0 to (opd.M-1)){
+				val vr = row(n+1); val oc = opd.column(m+1)
+				inner = inner.updated(m,(0.0f /: (for ((a, b) <- vr zip oc )yield a * b)) (_ + _))
+			}
+			outer = outer.updated(n,inner)
+		}
+		new Matrix(outer)
+	}
 
 	def disp: Unit = rows.foreach((v: Vector[Float]) => println(vts(v)))
 	
