@@ -1,4 +1,4 @@
-//Supports only 2x2
+//Supports NxM
 
 package packomatrices{
 
@@ -6,8 +6,21 @@ class Matrix(rows: Vector[Vector[Float]]){
 	type T
 	val N = rows.size
 	val M = rows(0).size
-		
-	def transpose: Matrix = new Matrix(Vector(Vector(rows(0)(0),rows(1)(0)),Vector(rows(0)(1),rows(1)(1))))
+	println(N);println(M)
+	
+//	def initEmpty:
+
+	def transpose: Matrix = {
+		var inner = Vector.fill(M,N)(0.0f) //Not functional
+		for (m <- 0 to (M-1)){
+			var temp: Vector[Float] = inner(m)
+			for (n <- 0 to (N-1)){
+				temp = temp.updated(n,rows(n)(m))
+			}
+			inner = inner.updated(m,temp)
+		}	
+		new Matrix(inner)
+	}
 
 //	def operate(operand: Matrix): Matrix = ne
 
